@@ -35,7 +35,7 @@ import org.jetbrains.kotlin.descriptors.ValueParameterDescriptor
 import org.jetbrains.kotlin.renderer.DescriptorRenderer
 import org.jetbrains.kotlin.eclipse.ui.utils.KotlinImageProvider
 import org.jetbrains.kotlin.name.Name
-import org.jetbrains.kotlin.resolve.descriptorUtil.hasDefaultValue
+import org.jetbrains.kotlin.resolve.calls.components.hasDefaultValue
 import org.jetbrains.kotlin.core.resolve.EclipseDescriptorUtils
 import org.jetbrains.kotlin.descriptors.SourceElement
 import org.jetbrains.kotlin.resolve.source.KotlinSourceElement

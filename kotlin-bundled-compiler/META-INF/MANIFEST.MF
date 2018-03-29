@@ -338,7 +338,6 @@ Export-Package:
  org.jetbrains.kotlin.serialization.builtins,
  org.jetbrains.kotlin.serialization.deserialization,
  org.jetbrains.kotlin.serialization.deserialization.descriptors,
- org.jetbrains.kotlin.serialization.jvm,
  org.jetbrains.kotlin.storage,
  org.jetbrains.kotlin.synthetic,
  org.jetbrains.kotlin.types,
