@@ -1,14 +1,14 @@
 <project default="get_bundled">
-    <property name="compiler.tag" value="1.2.31" />
+    <property name="compiler.tag" value="1.2.40" />
     <property name="bootstrap_branch" value=""/>
     <property name="idea-version" value="162.1812.17"/>
     
-    <property name="compiler.query" value="1377790:id" />
+    <property name="compiler.query" value="1391981:id" />
     
     <property name="teamcity-base" value="https://teamcity.jetbrains.com"/>
     
     <property name="kotlin-idea-compatible-version" value="IJ2017.3-1" />
-    <property name="kotlin-version" value="1.2.40-eap-51" />
+    <property name="kotlin-version" value="1.2.40-eap-64" />
     <property name="teamcity-kotlin-url" value = "${teamcity-base}/guestAuth/repository/download/Kotlin_1240_CompilerAllPlugins/${compiler.query}" />
     
     <property name="idea-sdk-url" value="https://www.jetbrains.com/intellij-repository/releases/com/jetbrains/intellij/idea" />
