@@ -17,50 +17,39 @@
 package org.jetbrains.kotlin.ui.builder
 
 import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.IMarker
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.IResourceDelta
-import org.eclipse.core.resources.IResourceDeltaVisitor
 import org.eclipse.core.resources.IncrementalProjectBuilder
-import org.eclipse.core.runtime.CoreException
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.debug.core.model.LaunchConfigurationDelegate
+import org.eclipse.core.runtime.Status
+import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
-import org.jetbrains.kotlin.analyzer.AnalysisResult
+import org.eclipse.ui.PlatformUI
+import org.jetbrains.kotlin.core.asJava.KotlinLightClassGeneration
 import org.jetbrains.kotlin.core.builder.KotlinPsiManager
-import org.jetbrains.kotlin.core.compiler.KotlinCompiler.KotlinCompilerResult
 import org.jetbrains.kotlin.core.compiler.KotlinCompilerUtils
-import org.jetbrains.kotlin.core.model.KotlinAnalysisProjectCache
+import org.jetbrains.kotlin.core.model.KotlinScriptEnvironment
+import org.jetbrains.kotlin.core.model.runJob
+import org.jetbrains.kotlin.core.resolve.KotlinAnalyzer
+import org.jetbrains.kotlin.core.resolve.lang.java.structure.EclipseJavaElementUtil
 import org.jetbrains.kotlin.eclipse.ui.utils.EditorUtil
 import org.jetbrains.kotlin.resolve.diagnostics.Diagnostics
+import org.jetbrains.kotlin.ui.KotlinPluginUpdater
+import org.jetbrains.kotlin.ui.editors.KotlinFileEditor
 import org.jetbrains.kotlin.ui.editors.annotations.AnnotationManager
 import org.jetbrains.kotlin.ui.editors.annotations.DiagnosticAnnotation
 import org.jetbrains.kotlin.ui.editors.annotations.DiagnosticAnnotationUtil
-import org.jetbrains.kotlin.core.resolve.KotlinAnalyzer
-import org.eclipse.core.resources.IMarker
-import org.eclipse.core.runtime.jobs.Job
-import org.eclipse.core.runtime.IStatus
-import org.eclipse.core.runtime.Status
-import org.jetbrains.kotlin.progress.ProgressIndicatorAndCompilationCanceledStatus
-import org.jetbrains.kotlin.progress.CompilationCanceledStatus
-import org.jetbrains.kotlin.progress.CompilationCanceledException
-import org.jetbrains.kotlin.core.asJava.KotlinLightClassGeneration
-import org.jetbrains.kotlin.ui.KotlinPluginUpdater
-import org.jetbrains.kotlin.core.model.runJob
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.ui.PlatformUI
-import org.jetbrains.kotlin.ui.editors.KotlinFileEditor
-import org.jetbrains.kotlin.core.model.KotlinScriptEnvironment
-import org.eclipse.jdt.internal.compiler.util.Util
-import org.jetbrains.kotlin.core.resolve.lang.java.structure.EclipseJavaElementUtil
 
 class KotlinBuilder : IncrementalProjectBuilder() {
     private val fileFilters = listOf(ScriptFileFilter, FileFromOuputFolderFilter, FileFromKotlinBinFolderFilter)
     
     override fun build(kind: Int, args: Map<String, String>?, monitor: IProgressMonitor?): Array<IProject>? {
         val javaProject = JavaCore.create(project)
-        if (isBuildingForLaunch()) {
+        if (kind != AUTO_BUILD) {
             compileKotlinFiles(javaProject)
             return null
         }
@@ -175,11 +164,6 @@ class KotlinBuilder : IncrementalProjectBuilder() {
         }
         
         return affectedFiles
-    }
-    
-    private fun isBuildingForLaunch(): Boolean {
-        val launchDelegateFQName = LaunchConfigurationDelegate::class.java.getCanonicalName()
-        return Thread.currentThread().getStackTrace().find { it.className == launchDelegateFQName } != null
     }
     
     private fun compileKotlinFiles(javaProject: IJavaProject) {
