@@ -54,6 +54,7 @@ import org.jetbrains.kotlin.core.builder.KotlinPsiManager
 import org.jetbrains.kotlin.ui.navigation.KotlinOpenEditor
 import java.io.InputStream
 import org.eclipse.jdt.internal.compiler.env.ICompilationUnit as ContentProviderCompilationUnit
+import org.eclipse.jdt.core.IOrdinaryClassFile
 
 private val DUMMY_NAME_RANGE = object : ISourceRange {
     override fun getLength(): Int = 0
@@ -295,7 +296,7 @@ class KotlinLightType(val originElement: IType) :
 
     override fun getType(name: String?): IType? = originElement.getType(name)
 
-    override fun getClassFile(): IClassFile? = originElement.getClassFile()
+    override fun getClassFile(): IOrdinaryClassFile? = originElement.getClassFile()
 
     override fun getTypeParameterSignatures(): Array<out String>? = originElement.getTypeParameterSignatures()
 
