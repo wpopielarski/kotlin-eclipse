@@ -34,12 +34,12 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation;
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity;
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector;
 import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler;
-import org.jetbrains.kotlin.config.JvmTarget;
 import org.jetbrains.kotlin.core.launch.CompilerOutputData;
 import org.jetbrains.kotlin.core.launch.CompilerOutputElement;
 import org.jetbrains.kotlin.core.launch.CompilerOutputParser;
 import org.jetbrains.kotlin.core.launch.KotlinCLICompiler;
 import org.jetbrains.kotlin.core.model.KotlinEnvironment;
+import org.jetbrains.kotlin.core.model.KotlinEnvironmentKt;
 import org.jetbrains.kotlin.core.preferences.CompilerPlugin;
 import org.jetbrains.kotlin.core.preferences.KotlinProperties;
 import org.jetbrains.kotlin.core.utils.ProjectUtils;
@@ -110,6 +110,8 @@ public class KotlinCompiler {
         command.add(ProjectUtils.KT_HOME);
         command.add("-no-jdk");
         command.add("-no-stdlib"); // Because we add runtime into the classpath
+
+        command.add("-Xintellij-plugin-root=" + KotlinEnvironmentKt.getKOTLIN_COMPILER_PATH());
 
         command.add("-jvm-target");
         command.add(kotlinProperties.getJvmTarget().getDescription());

@@ -15,17 +15,13 @@
  *******************************************************************************/
 package org.jetbrains.kotlin.core.launch;
 
-import java.io.File;
 import java.io.PrintStream;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.cli.common.CLICompiler;
 import org.jetbrains.kotlin.cli.common.ExitCode;
 import org.jetbrains.kotlin.cli.jvm.compiler.CompileEnvironmentException;
-import org.jetbrains.kotlin.cli.jvm.compiler.CompilerJarLocator;
 import org.jetbrains.kotlin.config.Services;
-import org.jetbrains.kotlin.config.Services.Builder;
-import org.jetbrains.kotlin.core.model.KotlinEnvironmentKt;
 
 public class KotlinCLICompiler {
     public static ExitCode doMain(@NotNull CLICompiler<?> compiler, @NotNull PrintStream errorStream, @NotNull String[] args) {
@@ -40,16 +36,7 @@ public class KotlinCLICompiler {
             @NotNull PrintStream errorStream, 
             @NotNull String[] args) {
         try {
-            Builder builder = new Services.Builder();
-            builder.register(CompilerJarLocator.class, new CompilerJarLocator() {
-                @NotNull
-                @Override
-                public File getCompilerJar() {
-                    return new File(KotlinEnvironmentKt.getKOTLIN_COMPILER_PATH());
-                }
-            });
-            
-            return compiler.execAndOutputXml(errorStream, builder.build(), args);
+            return compiler.execAndOutputXml(errorStream, Services.EMPTY, args);
         } catch (CompileEnvironmentException e) {
             errorStream.println(e.getMessage());
             return ExitCode.INTERNAL_ERROR;
