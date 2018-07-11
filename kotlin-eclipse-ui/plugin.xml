@@ -904,6 +904,27 @@
          </enabledWhen>
       </page>
    </extension>
+   <extension point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="org.jetbrains.kotlin.ui.kotlinContent"/>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+              activeByDefault="true"
+              contentProvider="org.eclipse.jdt.internal.ui.navigator.JavaNavigatorContentProvider"
+              icon="icons/kotlin.png"
+              id="org.jetbrains.kotlin.ui.kotlinContent"
+              labelProvider="org.jetbrains.kotlin.ui.KotlinNavigatorLabelProvider"
+              name="Kotlin Elements"
+              priority="higher">
+         <triggerPoints>
+            <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
    <extension point="org.eclipse.core.expressions.definitions">
       <definition id="org.jetbrains.kotlin.newFileWizardEnablement">
          <or>
@@ -925,7 +946,7 @@
    </extension>
    <extension point="org.eclipse.ui.navigator.navigatorContent">
       <commonWizard
-              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              associatedExtensionId="org.jetbrains.kotlin.ui.kotlinContent"
               menuGroupId="org.jetbrains.kotlin"
               type="new"
               wizardId="org.jetbrains.kotlin.wizard">
@@ -934,7 +955,7 @@
          </enablement>
       </commonWizard>
       <commonWizard
-              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              associatedExtensionId="org.jetbrains.kotlin.ui.kotlinContent"
               menuGroupId="org.jetbrains.kotlin"
               type="new"
               wizardId="org.jetbrains.kotlin.classWizard">
@@ -943,7 +964,7 @@
          </enablement>
       </commonWizard>
       <commonWizard
-              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              associatedExtensionId="org.jetbrains.kotlin.ui.kotlinContent"
               menuGroupId="org.jetbrains.kotlin"
               type="new"
               wizardId="org.jetbrains.kotlin.traitWizard">
@@ -952,7 +973,7 @@
          </enablement>
       </commonWizard>
       <commonWizard
-              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              associatedExtensionId="org.jetbrains.kotlin.ui.kotlinContent"
               menuGroupId="org.jetbrains.kotlin"
               type="new"
               wizardId="org.jetbrains.kotlin.objectWizard">
@@ -961,7 +982,7 @@
          </enablement>
       </commonWizard>
       <commonWizard
-              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              associatedExtensionId="org.jetbrains.kotlin.ui.kotlinContent"
               menuGroupId="org.jetbrains.kotlin"
               type="new"
               wizardId="org.jetbrains.kotlin.enumWizard">
