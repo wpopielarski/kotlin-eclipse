@@ -23,14 +23,13 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.core.runtime.jobs.JobChangeAdapter
 import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.JavaCore
 import org.jetbrains.kotlin.core.KotlinClasspathContainer
 import org.jetbrains.kotlin.core.utils.ProjectUtils
 
-fun unconfigureKotlinProject(javaProject: IJavaProject) {
-    val project = javaProject.getProject()
-    
+fun unconfigureKotlinProject(project: IProject) {
     unconfigureKotlinNature(project)
-    unconfigureKotlinRuntime(javaProject)
+    unconfigureKotlinRuntime(project)
     removeKotlinBinFolder(project)
 }
 
@@ -38,14 +37,16 @@ fun unconfigureKotlinNature(project: IProject) {
     if (KotlinNature.hasKotlinNature(project)) {
         val description = project.getDescription()
         val newNatures = description.getNatureIds().filter { it != KotlinNature.KOTLIN_NATURE }
-        
+
         description.setNatureIds(newNatures.toTypedArray())
         project.setDescription(description, null)
     }
 }
 
-fun unconfigureKotlinRuntime(javaProject: IJavaProject) {
-    if (ProjectUtils.hasKotlinRuntime(javaProject.getProject())) {
+fun unconfigureKotlinRuntime(project: IProject) {
+    val javaProject = project.getNature(JavaCore.NATURE_ID) as? IJavaProject
+
+    if (javaProject != null && ProjectUtils.hasKotlinRuntime(javaProject.getProject())) {
         val newEntries = javaProject.getRawClasspath().filterNot {
             ProjectUtils.equalsEntriesPaths(it, KotlinClasspathContainer.CONTAINER_ENTRY)
         }

@@ -323,28 +323,30 @@
                style="push">
          </command>
       </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-         <menu
-               label="Configure Kotlin">
-            <command
-                  commandId="org.jetbrains.kotlin.ui.commands.deconfiguration"
-                  label="Remove Kotlin Nature"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="true">
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="org.jetbrains.kotlin.ui.commands.configuration"
-                  label="Add Kotlin Nature"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="true">
-               </visibleWhen>
-            </command>
-         </menu>
+      <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
+         <command
+               commandId="org.jetbrains.kotlin.ui.commands.j2k"
+               label="Convert Java to Kotlin"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution locationURI="popup:org.eclipse.ui.projectConfigure">
+         <command
+               commandId="org.jetbrains.kotlin.ui.commands.deconfiguration"
+               label="Remove Kotlin Nature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.jetbrains.kotlin.ui.commands.configuration"
+               label="Add Kotlin Nature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+            </visibleWhen>
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -901,5 +903,71 @@
             </reference>
          </enabledWhen>
       </page>
+   </extension>
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.jetbrains.kotlin.newFileWizardEnablement">
+         <or>
+            <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
+            <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
+            <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
+            <adapt type="org.eclipse.core.resources.IFile">
+               <or>
+                  <test property="org.eclipse.core.resources.extension" value="kt"/>
+                  <test property="org.eclipse.core.resources.extension" value="kts"/>
+               </or>
+            </adapt>
+            <adapt type="org.eclipse.core.resources.IProject">
+               <test property="org.eclipse.core.resources.projectNature"
+                     value="org.jetbrains.kotlin.core.kotlinNature"/>
+            </adapt>
+         </or>
+      </definition>
+   </extension>
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard
+              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              menuGroupId="org.jetbrains.kotlin"
+              type="new"
+              wizardId="org.jetbrains.kotlin.wizard">
+         <enablement>
+            <reference definitionId="org.jetbrains.kotlin.newFileWizardEnablement"/>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              menuGroupId="org.jetbrains.kotlin"
+              type="new"
+              wizardId="org.jetbrains.kotlin.classWizard">
+         <enablement>
+            <reference definitionId="org.jetbrains.kotlin.newFileWizardEnablement"/>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              menuGroupId="org.jetbrains.kotlin"
+              type="new"
+              wizardId="org.jetbrains.kotlin.traitWizard">
+         <enablement>
+            <reference definitionId="org.jetbrains.kotlin.newFileWizardEnablement"/>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              menuGroupId="org.jetbrains.kotlin"
+              type="new"
+              wizardId="org.jetbrains.kotlin.objectWizard">
+         <enablement>
+            <reference definitionId="org.jetbrains.kotlin.newFileWizardEnablement"/>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+              associatedExtensionId="org.eclipse.jdt.java.ui.javaContent"
+              menuGroupId="org.jetbrains.kotlin"
+              type="new"
+              wizardId="org.jetbrains.kotlin.enumWizard">
+         <enablement>
+            <reference definitionId="org.jetbrains.kotlin.newFileWizardEnablement"/>
+         </enablement>
+      </commonWizard>
    </extension>
 </plugin>
