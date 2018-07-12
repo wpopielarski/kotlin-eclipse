@@ -137,7 +137,7 @@
       <perspectiveExtension
             targetID="org.jetbrains.kotlin.perspective">
          <view
-               id="org.eclipse.jdt.ui.PackageExplorer"
+               id="org.eclipse.ui.navigator.ProjectExplorer"
                minimized="false"
                ratio="0.3"
                relationship="left"
