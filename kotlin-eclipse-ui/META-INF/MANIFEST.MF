@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.equinox.p2.engine,
  org.eclipse.mylyn.commons.ui,
  org.eclipse.equinox.p2.director,
- org.eclipse.core.variables
+ org.eclipse.core.variables,
+ org.eclipse.ui.navigator;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.expressions,
  org.eclipse.core.resources,
