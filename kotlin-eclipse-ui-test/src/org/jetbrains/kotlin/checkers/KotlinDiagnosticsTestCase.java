@@ -199,7 +199,7 @@ public class KotlinDiagnosticsTestCase extends KotlinProjectTestCase {
             allKtFiles.addAll(jetFiles);
             
             AnalysisResult analysisResult = EclipseAnalyzerFacadeForJVM.INSTANCE
-                    .analyzeFilesWithJavaIntegration(
+                    .analyzeSources(
                             KotlinEnvironment.Companion.getEnvironment(getTestProject().getJavaProject().getProject()), jetFiles)
                     .getAnalysisResult();
             
