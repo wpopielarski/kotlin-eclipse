@@ -16,30 +16,56 @@
  *******************************************************************************/
 package org.jetbrains.kotlin.core.model
 
+import com.intellij.codeInsight.NullabilityAnnotationInfo
 import com.intellij.codeInsight.NullableNotNullManager
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifierListOwner
-import com.intellij.openapi.project.Project
 
-public class KotlinNullableNotNullManager(project: Project) : NullableNotNullManager(project) {
-    override fun getPredefinedNotNulls(): List<String> {
-        return emptyList()
-    }
+class KotlinNullableNotNullManager(project: Project) : NullableNotNullManager(project) {
+	override fun getNullables(): List<String> = emptyList()
 
-    //    For now we get unresolved psi elements and as a result annotations qualified names are short 
+	override fun setInstrumentedNotNulls(arg0: MutableList<String>) {
+
+	}
+
+	override fun getInstrumentedNotNulls(): List<String> = emptyList()
+
+	override fun isJsr305Default(arg0: PsiAnnotation, arg1: Array<out PsiAnnotation.TargetType>): NullabilityAnnotationInfo? = null
+
+	override fun setNullables(vararg arg0: String?) {
+	}
+
+	override fun getDefaultNotNull(): String = "NotNull"
+
+	override fun getNotNulls(): List<String> = emptyList()
+
+	override fun getDefaultNullable(): String = "Nullable"
+
+	override fun setDefaultNotNull(arg0: String) {
+	}
+
+	override fun setNotNulls(vararg arg0: String?) {
+	}
+
+	//    For now we get unresolved psi elements and as a result annotations qualified names are short
     init {
         setNotNulls("NotNull")
         setNullables("Nullable")
     }
-    
+
+    override fun setDefaultNullable(defaultNullable: String) {
+    }
+
     override fun hasHardcodedContracts(element: PsiElement): Boolean = false
-    
+
     override fun isNotNull(owner: PsiModifierListOwner, checkBases: Boolean): Boolean {
-        val notNullAnnotations = getNotNulls().toSet()
-        return owner.getModifierList()?.getAnnotations()?.any { annotation ->
-            annotation.getQualifiedName() in notNullAnnotations
+		val notNullAnnotations = notNulls.toSet()
+		return owner.modifierList?.annotations?.any { annotation ->
+			annotation.qualifiedName in notNullAnnotations
         } ?: false
     }
-    
-    override fun isNullable(owner: PsiModifierListOwner, checkBases: Boolean) = !isNotNull(owner, checkBases)
+
+	override fun isNullable(owner: PsiModifierListOwner, checkBases: Boolean) = !isNotNull(owner, checkBases)
 }
