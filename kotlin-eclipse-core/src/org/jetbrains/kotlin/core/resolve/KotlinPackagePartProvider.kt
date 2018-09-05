@@ -18,6 +18,7 @@ package org.jetbrains.kotlin.core.resolve
 
 import com.intellij.openapi.vfs.VirtualFile
 import org.jetbrains.kotlin.config.LanguageVersionSettingsImpl
+import org.jetbrains.kotlin.core.log.KotlinLogger
 import org.jetbrains.kotlin.core.model.KotlinCommonEnvironment
 import org.jetbrains.kotlin.load.kotlin.PackagePartProvider
 import org.jetbrains.kotlin.metadata.jvm.deserialization.ModuleMapping
@@ -107,7 +108,9 @@ public class KotlinPackagePartProvider(private val environment: KotlinCommonEnvi
                             moduleFile.toString(),
                             deserializationConfiguration.skipMetadataVersionCheck,
                             deserializationConfiguration.isJvmPackageNameSupported
-                    )
+                    ) {
+                        KotlinLogger.logWarning("Incompatible version for '$moduleFile': $it")
+                    }
                 }
                 catch (e: EOFException) {
                     throw RuntimeException("Error on reading package parts for '$packageFqName' package in '$moduleFile', " +
