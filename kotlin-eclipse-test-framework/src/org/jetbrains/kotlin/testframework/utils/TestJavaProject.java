@@ -212,6 +212,10 @@ public class TestJavaProject {
     public IJavaProject getJavaProject() {
         return javaProject;
     }
+    
+    public IProject getProject() {
+        return project;
+    }
 
     public void addKotlinRuntime() throws CoreException {
         ProjectUtils.addKotlinRuntime(javaProject);

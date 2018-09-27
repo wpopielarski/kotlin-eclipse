@@ -16,7 +16,6 @@
  *******************************************************************************/
 package org.jetbrains.kotlin.ui.tests.editors;
 
-import org.jetbrains.kotlin.ui.tests.editors.formatter.KotlinFormatActionTest;
 import org.jetbrains.kotlin.ui.tests.editors.highlighting.KotlinHighlightingTest;
 import org.jetbrains.kotlin.ui.tests.editors.selection.KotlinSelectEnclosingTest;
 import org.jetbrains.kotlin.ui.tests.editors.selection.KotlinSelectNextTest;
@@ -27,11 +26,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses( { 
     KotlinEditorBaseTest.class, 
-    KotlinBasicAutoIndentTest.class,
     KotlinAnalyzerInIDETest.class,
     KotlinHighlightingTest.class,
     KotlinBracketInserterTest.class,
-    KotlinFormatActionTest.class,
     KotlinCustomLocationBugTest.class,
     PsiVisualizationCommandTest.class,
     KotlinEditorClosedProjectInfluenceTest.class,
