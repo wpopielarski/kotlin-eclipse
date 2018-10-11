@@ -285,6 +285,11 @@
             name="Configure Kotlin">
       </command>
       <command
+            defaultHandler="org.jetbrains.kotlin.ui.commands.AddCoroutinesActionHandler"
+            id="org.jetbrains.kotlin.ui.commands.configuration.coroutines"
+            name="Add Coroutines Library">
+      </command>
+      <command
             defaultHandler="org.jetbrains.kotlin.ui.commands.findReferences.KotlinFindReferencesInProjectHandler"
             id="org.jetbrains.kotlin.ui.commands.findReferences.findReferencesInProject"
             name="Find References In Project">
@@ -333,6 +338,14 @@
             <command
                   commandId="org.jetbrains.kotlin.ui.commands.configuration"
                   label="Add Kotlin Nature"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="true">
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.jetbrains.kotlin.ui.commands.configuration.coroutines"
+                  label="Add Coroutines Library"
                   style="push">
                <visibleWhen
                      checkEnabled="true">
