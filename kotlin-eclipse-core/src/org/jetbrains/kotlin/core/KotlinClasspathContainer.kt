@@ -39,9 +39,8 @@ class KotlinClasspathContainer(val javaProject: IJavaProject) : IClasspathContai
         val LIB_ANNOTATIONS_1_3 = "annotations-13.0"
 
         @JvmStatic
-        fun getPathToLightClassesFolder(javaProject: IJavaProject): IPath {
-            return Path(javaProject.project.name).append(KotlinJavaManager.KOTLIN_BIN_FOLDER).makeAbsolute()
-        }
+        fun getPathToLightClassesFolder(javaProject: IJavaProject): IPath =
+            KotlinJavaManager.getKotlinBinFolderFor(javaProject.project).location
     }
 
     override fun getClasspathEntries(): Array<IClasspathEntry> {
